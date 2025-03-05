@@ -1,1 +1,18 @@
+#include <stdint.h>
+
+uint32_t *RCC_AHB1ENR = (uint32_t *)0x40023830 ;
+uint32_t *GPIOx_MODER = (uint32_t *)0x40020800 ;
+uint32_t *GPIOx_ODR = (uint32_t *)0x40020814 ;
+
+int main(void)
+{
+	*RCC_AHB1ENR |= (1<<2); // Enable RCC For Port C
+	*GPIOx_MODER &= (3<<12); // Clearing the mode register
+	*GPIOx_MODER |= (1<<12); // Setting the pin6 as output
+
+	while(1)
+	{
+		*GPIOx_ODR ^= (1<<6) ; // Toogle
+		delay(1000);
+	}
 
