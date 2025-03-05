@@ -1,0 +1,32 @@
+#include <stdint.h>
+
+uint32_t *RCC_AHB1ENR = (uint32_t *)0x40023830 ;
+uint32_t *GPIOD_MODER = (uint32_t *)0x40020800 ;
+uint32_t *GPIOD_ODR = (uint32_t *)0x40020814 ;
+uint32_t *GPIOA_MODER = (uint32_t *)0x40020000 ;
+uint32_t *GPIOA_IDR = (uint32_t *)0x40020010;
+
+
+
+int main(void)
+{
+
+	uint8_t pinstate;
+	*RCC_AHB1ENR |= (1<<2)|(1<<0); // Enable RCC For Port C and Port A
+	*GPIOD_MODER &= (3<<12); // Clearing the mode register
+	*GPIOD_MODER |= (1<<12); // Setting the pin6 as output
+	*GPIOA_MODER &= (3<<0); // Setting the pin0 of port A as input
+	
+    /* Loop forever */
+	while(1)
+	{
+		pinstate = (*GPIOA_IDR & (1<<0));
+		if (pinstate==1)
+		{
+			*GPIOx_ODR |= (1<<6);
+		}
+		else
+		{
+			*GPIOx_ODR &= ~(1<<6);
+		}
+	}
