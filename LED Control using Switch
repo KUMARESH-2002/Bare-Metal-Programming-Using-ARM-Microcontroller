@@ -30,3 +30,4 @@ int main(void)
 			*GPIOx_ODR &= ~(1<<6);
 		}
 	}
+}
